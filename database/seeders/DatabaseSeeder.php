@@ -25,8 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CitySeeder::class);
         $this->call(IndustrySeeder::class);
         $this->call(ContactTypeSeeder::class);
-        $this->call(CustomerSeeder::class);
+        \App\Models\Customer::factory(10)->create(); 
         \App\Models\Contact::factory(10)->create(); 
-
     }
 }
