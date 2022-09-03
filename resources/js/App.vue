@@ -1,10 +1,12 @@
 <template>
     <div id="app">
-        <div class="container">
-            <transition name="fade">
-                <router-view></router-view>
+        <AppLayout>
+            <router-view v-slot="{ Component }">
+            <transition>
+                <component :is="Component" />
             </transition>
-        </div>
+            </router-view>
+        </AppLayout>  
     </div>
 </template>
 
@@ -19,6 +21,13 @@
 
 <script>
 
-    export default{
-    }
+import AppLayout from './layouts/AppLayout.vue'
+
+export default {
+  name: 'App',
+  components: {
+    AppLayout,
+  },
+}
+
 </script>
