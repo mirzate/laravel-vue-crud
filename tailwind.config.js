@@ -1,8 +1,11 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
+const colors = require('tailwindcss/colors');
+
 module.exports = {
   content: ["./resources/js/**/*.{html,js,vue}"],
   theme: {
     colors: {
+      emerald: colors.emerald,
       transparent: 'transparent',
       current: 'currentColor',
       black: '#000000',

@@ -16,8 +16,16 @@ class ContactController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'value' => 'required|string',
+            'customer_id' => 'required|exists:App\Models\Customer,id',
+            'contact_type_id' => 'required|exists:App\Models\ContactType,id'
+        ]);
+
         $contact = new Contact([
-            'name' => $request->input('name'),
+            'value' => $request->input('value'),
+            'customer_id' => $request->input('customer_id'),
+            'contact_type_id' => $request->input('contact_type_id'),
         ]);
         $contact->save();
 
@@ -40,6 +48,8 @@ class ContactController extends Controller
 
         $request->validate([
             'value' => 'required|string',
+            'customer_id' => 'required|exists:App\Models\Customer,id',
+            'contact_type_id' => 'required|exists:App\Models\ContactType,id'
         ]);
 
         $contact = Contact::find($id);

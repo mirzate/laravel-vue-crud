@@ -48,19 +48,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      taxes: [],
-      taxTypes: [],
-      categories: [],
-      cat: [],
-      addons: [],
-      fees: [],
-      quote: null,
-      item: {},
+      item: {
+        customer_id: null,
+        contact_type_id: null
+      },
       selectedFile: null,
-      imageUploadError: null,
-      imageUpload: false,
       loading: false,
-      file: null,
       rules: {
         required: function required(value) {
           return !!value || 'Required.';
@@ -69,12 +62,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       valid: true,
       lazy: true,
       errored: false,
-      errors: []
+      errors: [],
+      types: null
     };
   },
   mounted: function mounted() {
+    this.getTypes();
+
     if (this.$route.params.id) {
       this.getItem();
+    }
+
+    if (this.$route.params.customer_id) {
+      this.item.customer_id = this.$route.params.customer_id;
     }
   },
   computed: {
@@ -91,6 +91,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         label = "Value required.";
         this.errors.push(label);
         this.errors["value"] = label;
+      }
+
+      if (!this.item.contact_type_id) {
+        label = "Type required.";
+        this.errors.push(label);
+        this.errors["contact_type_id"] = label;
+      }
+
+      if (!this.item.customer_id) {
+        label = "Customer required.";
+        this.errors.push(label);
+        this.errors["customer_id"] = label;
       }
 
       if (!this.errors.length) {
@@ -126,8 +138,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    addItem: function addItem() {
+    deleteContact: function deleteContact(id) {
       var _this2 = this;
+
+      this.$http["delete"]("http://localhost:8081/api/contacts/".concat(id)).then(function (response) {
+        _this2.$router.push({
+          name: 'customers'
+        });
+      });
+    },
+    addItem: function addItem() {
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
         var uri;
@@ -135,7 +156,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (_this2.validateForm()) {
+                if (_this3.validateForm()) {
                   _context2.next = 2;
                   break;
                 }
@@ -143,7 +164,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context2.abrupt("return");
 
               case 2:
-                if (_this2.valid) {
+                if (_this3.valid) {
                   _context2.next = 4;
                   break;
                 }
@@ -151,19 +172,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context2.abrupt("return");
 
               case 4:
-                _this2.loading = true;
+                _this3.loading = true;
                 uri = 'http://localhost:8081/api/contacts/';
                 _context2.next = 8;
-                return _this2.$http.post(uri, _this2.item).then(function (response) {
-                  _this2.item = response.data;
+                return _this3.$http.post(uri, _this3.item).then(function (response) {
+                  _this3.item = response.data;
 
-                  _this2.$router.push({
+                  _this3.$router.push({
                     name: 'customers'
                   });
                 });
 
               case 8:
-                _this2.loading = false;
+                _this3.loading = false;
 
               case 9:
               case "end":
@@ -174,7 +195,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     updateItem: function updateItem() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
         var uri;
@@ -182,7 +203,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (_this3.validateForm()) {
+                if (_this4.validateForm()) {
                   _context3.next = 2;
                   break;
                 }
@@ -190,9 +211,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return");
 
               case 2:
-                _this3.loading = true;
+                _this4.loading = true;
 
-                if (_this3.valid) {
+                if (_this4.valid) {
                   _context3.next = 5;
                   break;
                 }
@@ -200,18 +221,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return");
 
               case 5:
-                uri = 'http://localhost:8081/api/contacts/' + _this3.item.id;
+                uri = 'http://localhost:8081/api/contacts/' + _this4.item.id;
                 _context3.next = 8;
-                return _this3.$http.put(uri, _this3.item).then(function () {
-                  _this3.$router.push({
+                return _this4.$http.put(uri, _this4.item).then(function () {
+                  _this4.$router.push({
                     name: 'customers'
                   });
                 })["catch"](function (error) {
-                  console.log('Error loading data: ' + error), _this3.errored = true, _this3.loading = false;
+                  console.log('Error loading data: ' + error), _this4.errored = true, _this4.loading = false;
                 });
 
               case 8:
-                _this3.loading = false;
+                _this4.loading = false;
 
               case 9:
               case "end":
@@ -222,7 +243,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     getItem: function getItem() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
         var uri;
@@ -230,15 +251,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this4.loading = true;
-                uri = 'http://localhost:8081/api/contacts/' + _this4.$route.params.id + '/edit';
+                _this5.loading = true;
+                uri = 'http://localhost:8081/api/contacts/' + _this5.$route.params.id + '/edit';
 
-                _this4.$http.get(uri).then(function (response) {
-                  _this4.item = response.data;
+                _this5.$http.get(uri).then(function (response) {
+                  _this5.item = response.data;
                 })["catch"](function (error) {
-                  console.log('Error loading data: ' + error), _this4.errored = true, _this4.loading = false;
+                  console.log('Error loading data: ' + error), _this5.errored = true, _this5.loading = false;
                 })["finally"](function () {
-                  return _this4.loading = false;
+                  return _this5.loading = false;
                 });
 
               case 3:
@@ -247,6 +268,34 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             }
           }
         }, _callee4);
+      }))();
+    },
+    getTypes: function getTypes() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var uri;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _this6.loading = true;
+                uri = 'http://localhost:8081/api/contact-types/';
+
+                _this6.$http.get(uri).then(function (response) {
+                  _this6.types = response.data;
+                })["catch"](function (error) {
+                  console.log('Error loading data: ' + error), _this6.errored = true, _this6.loading = false;
+                })["finally"](function () {
+                  return _this6.loading = false;
+                });
+
+              case 3:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
       }))();
     }
   }
@@ -304,30 +353,43 @@ var _hoisted_3 = {
   "class": "col-span-5"
 };
 var _hoisted_4 = {
+  "class": "text-xs text-red"
+};
+var _hoisted_5 = {
   "class": "mt-8"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   required: "",
   "for": "value"
 }, "Value", -1
 /* HOISTED */
 );
 
-var _hoisted_6 = {
+var _hoisted_7 = {
   "class": "mt-2"
 };
-var _hoisted_7 = {
+var _hoisted_8 = {
   "class": "text-xs text-red"
 };
-var _hoisted_8 = {
+var _hoisted_9 = {
+  "class": "mt-8"
+};
+var _hoisted_10 = ["value"];
+var _hoisted_11 = {
+  "class": "text-xs text-red"
+};
+var _hoisted_12 = {
   "class": "mt-6"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
 
-var _hoisted_10 = ["disabled"];
+var _hoisted_14 = ["disabled"];
+var _hoisted_15 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
   var _component_input_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("input-text");
 
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
@@ -335,14 +397,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     ref: "form",
     novalidate: "false",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.onSubmit && $options.onSubmit.apply($options, arguments);
     }, ["prevent"])),
-    onChange: _cache[2] || (_cache[2] = function ($event) {
+    onChange: _cache[4] || (_cache[4] = function ($event) {
       return $options.validateForm();
     }),
     method: "POST"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_input_text, {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['customer_id']), 1
+  /* TEXT */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_input_text, {
     modelValue: $data.item.value,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.item.value = $event;
@@ -352,16 +416,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     required: ""
   }, null, 8
   /* PROPS */
-  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['value']), 1
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['value']), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.types, function (type, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(type.name) + " ", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "radio",
+      id: "type",
+      "class": "custom-control-input",
+      "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+        return $data.item.contact_type_id = $event;
+      }),
+      value: type.id
+    }, null, 8
+    /* PROPS */
+    , _hoisted_10), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.item.contact_type_id]])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['contact_type_id']), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'customers'
     },
     "class": "mt-6 mr-6 px-8 py-3 border border-solid border-black text-base font-medium rounded-xl text-black bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-n4"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_9];
+      return [_hoisted_13];
     }),
     _: 1
     /* STABLE */
@@ -372,7 +456,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 9
   /* TEXT, PROPS */
-  , _hoisted_10)])], 544
+  , _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.deleteContact(_this.item.id);
+    }),
+    disabled: !this.item.id,
+    "class": "mt-6 ml-3 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+  }, " Delete ", 8
+  /* PROPS */
+  , _hoisted_15)])], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
   )])])])]);
 }

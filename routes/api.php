@@ -24,4 +24,5 @@ Route::middleware('api')->group(function () {
     Route::resource('countries', CountryController::class);
     Route::resource('customers', CustomerController::class);
     Route::resource('contacts', ContactController::class);
+    Route::resource('contact-types', ContactTypeController::class)->only(['index']);
 });

@@ -14,7 +14,7 @@ export default [
     component: page('customer/CustomerPage'),
     children: [
       {
-        path: '/contacts/create',
+        path: '/contacts/create/:customer_id',
         name: 'contacts.create',
         component: page('contact/ContactManagePage')
       },
