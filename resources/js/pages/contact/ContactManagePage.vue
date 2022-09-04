@@ -3,9 +3,12 @@
         <div class="md:grid md:grid-cols-8 md:gap-x-8">
             <div class="col-span-5">
                 <div>
+              
                 <form ref="form" novalidate="false" @submit.prevent="onSubmit" @change="validateForm()" method="POST">
+                  
                   <span class="text-xs text-red">{{errors['customer_id']}}</span>
                     <div class="mt-8">
+                      <div v-if="item.customer.name" class="text-xl text-orange-400">{{item.customer.name}} contacts</div>
                         <label required for="value">Value</label>
                         <div class="mt-2">
                         <input-text v-model="item.value" id="value" name="value" required/>
@@ -63,7 +66,10 @@ export default {
     return {
       item: {
         customer_id: null,
-        contact_type_id: null
+        contact_type_id: null,
+        customer: {
+          name: null
+        }
       },
       selectedFile: null,
       loading: false,
@@ -85,7 +91,9 @@ export default {
     }
     if(this.$route.params.customer_id){
       this.item.customer_id = this.$route.params.customer_id;
+      this.getCustomer(this.item.customer_id);
     }
+    
   },
   computed: {
     buttonText() {
@@ -187,7 +195,7 @@ export default {
         }).finally(() =>
             this.loading = false
         );
-
+      
     },
     async getTypes() {
       this.loading = true;
@@ -202,8 +210,22 @@ export default {
         }).finally(() =>
             this.loading = false
         );
+    },
+    async getCustomer(id) {
+      this.loading = true;
+      let uri = '/api/customers/'+id;
+      this.$http.get(uri)
+        .then((response) => {
+            this.item.customer = response.data
+        }).catch(error => {
+            console.log('Error loading data: ' + error),
+            this.errored = true,
+            this.loading = false
+        }).finally(() =>
+            this.loading = false
+        );
 
-    },    
+    },      
   }
 }
 </script>

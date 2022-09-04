@@ -39,7 +39,7 @@ class ContactController extends Controller
     }
     public function edit($id)
     {
-        $contact = Contact::find($id);
+        $contact = Contact::with('customer')->find($id);
 
         return response()->json($contact);
     }    
