@@ -19959,6 +19959,18 @@ function page(path) {
   name: 'home',
   component: page('HomePage')
 }, {
+  path: '/customers',
+  name: 'customers',
+  component: page('customer/CustomerPage')
+}, {
+  path: '/customers/create',
+  name: 'customers.create',
+  component: page('customer/CustomerManagePage')
+}, {
+  path: '/customers/:id/edit',
+  name: 'customers.edit',
+  component: page('customer/CustomerManagePage')
+}, {
   path: '/countries',
   name: 'countries',
   component: page('country/CountryPage')
@@ -38317,6 +38329,14 @@ var map = {
 	"./country/CountryPage.vue": [
 		"./resources/js/pages/country/CountryPage.vue",
 		"resources_js_pages_country_CountryPage_vue"
+	],
+	"./customer/CustomerManagePage.vue": [
+		"./resources/js/pages/customer/CustomerManagePage.vue",
+		"resources_js_pages_customer_CustomerManagePage_vue"
+	],
+	"./customer/CustomerPage.vue": [
+		"./resources/js/pages/customer/CustomerPage.vue",
+		"resources_js_pages_customer_CustomerPage_vue"
 	]
 };
 function webpackAsyncContext(req) {
@@ -42093,7 +42113,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_pages_HomePage_vue":1,"resources_js_pages_country_CountryManagePage_vue":1,"resources_js_pages_country_CountryPage_vue":1,"resources_js_layouts_DefaultLayout_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_pages_HomePage_vue":1,"resources_js_pages_country_CountryManagePage_vue":1,"resources_js_pages_country_CountryPage_vue":1,"resources_js_pages_customer_CustomerManagePage_vue":1,"resources_js_pages_customer_CustomerPage_vue":1,"resources_js_layouts_DefaultLayout_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};

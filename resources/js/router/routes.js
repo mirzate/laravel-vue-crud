@@ -9,6 +9,21 @@ export default [
     component: page('HomePage')
   },
   {
+    path: '/customers',
+    name: 'customers',
+    component: page('customer/CustomerPage')
+  },
+  {
+    path: '/customers/create',
+    name: 'customers.create',
+    component: page('customer/CustomerManagePage')
+  },
+  {
+    path: '/customers/:id/edit',
+    name: 'customers.edit',
+    component: page('customer/CustomerManagePage')
+  },
+  {
     path: '/countries',
     name: 'countries',
     component: page('country/CountryPage')

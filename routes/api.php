@@ -1,8 +1,9 @@
 <?php
+namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CountryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -21,4 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('api')->group(function () {
     Route::resource('countries', CountryController::class);
+    Route::resource('customers', CustomerController::class);
 });

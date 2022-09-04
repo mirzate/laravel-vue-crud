@@ -16,7 +16,7 @@ class ContactFactory extends Factory
     public function definition()
     {
         return [
-            'value' => $this->faker->text(),
+            'value' => $this->faker->name(),
             'customer_id' => Customer::pluck('id')->random(),
             'contact_type_id' => ContactType::pluck('id')->random(),
         ];
