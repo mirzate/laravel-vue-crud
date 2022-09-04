@@ -16,12 +16,12 @@ export default [
   {
     path: '/countries/create',
     name: 'countries.create',
-    component: page('country/CountryCreatePage')
+    component: page('country/CountryManagePage')
   },
   {
     path: '/countries/:id/edit',
     name: 'countries.edit',
-    component: page('country/CountryEditPage')
+    component: page('country/CountryManagePage')
   },
 
   { path: '/:catchAll(.*)', name: 'notFound', component: page('errors/404') }
