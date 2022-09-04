@@ -135,7 +135,7 @@ export default {
     },
     deleteContact(id) { 
         this.$http
-            .delete(`http://localhost:8081/api/contacts/${id}`)
+            .delete(`/api/contacts/${id}`)
             .then(response => {
                 this.$router.push({name: 'customers'})
         });
@@ -147,7 +147,7 @@ export default {
       }
       if (!this.valid) return;
       this.loading = true;
-      let uri = 'http://localhost:8081/api/contacts/';
+      let uri = '/api/contacts/';
       await this.$http.post(uri, this.item)
           .then((response) => {
             this.item = response.data
@@ -163,7 +163,7 @@ export default {
       }
       this.loading = true;
       if (!this.valid) return;
-      let uri = 'http://localhost:8081/api/contacts/' + this.item.id;
+      let uri = '/api/contacts/' + this.item.id;
       await this.$http.put(uri, this.item)
           .then(() => {
             this.$router.push({name: 'customers'})
@@ -176,7 +176,7 @@ export default {
     },
     async getItem() {
       this.loading = true;
-      let uri = 'http://localhost:8081/api/contacts/' + this.$route.params.id + '/edit';
+      let uri = '/api/contacts/' + this.$route.params.id + '/edit';
       this.$http.get(uri)
         .then((response) => {
             this.item = response.data
@@ -191,7 +191,7 @@ export default {
     },
     async getTypes() {
       this.loading = true;
-      let uri = 'http://localhost:8081/api/contact-types/';
+      let uri = '/api/contact-types/';
       this.$http.get(uri)
         .then((response) => {
             this.types = response.data

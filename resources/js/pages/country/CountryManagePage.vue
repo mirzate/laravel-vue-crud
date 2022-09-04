@@ -131,7 +131,7 @@ export default {
       }
       if (!this.valid) return;
       this.loading = true;
-      let uri = 'http://localhost:8081/api/countries/';
+      let uri = '/api/countries/';
       await this.$http.post(uri, this.item)
           .then((response) => {
             this.item = response.data,

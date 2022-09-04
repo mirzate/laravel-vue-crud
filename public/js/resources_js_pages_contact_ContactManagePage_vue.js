@@ -141,7 +141,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     deleteContact: function deleteContact(id) {
       var _this2 = this;
 
-      this.$http["delete"]("http://localhost:8081/api/contacts/".concat(id)).then(function (response) {
+      this.$http["delete"]("/api/contacts/".concat(id)).then(function (response) {
         _this2.$router.push({
           name: 'customers'
         });
@@ -173,7 +173,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 _this3.loading = true;
-                uri = 'http://localhost:8081/api/contacts/';
+                uri = '/api/contacts/';
                 _context2.next = 8;
                 return _this3.$http.post(uri, _this3.item).then(function (response) {
                   _this3.item = response.data;
@@ -221,7 +221,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return");
 
               case 5:
-                uri = 'http://localhost:8081/api/contacts/' + _this4.item.id;
+                uri = '/api/contacts/' + _this4.item.id;
                 _context3.next = 8;
                 return _this4.$http.put(uri, _this4.item).then(function () {
                   _this4.$router.push({
@@ -252,7 +252,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _this5.loading = true;
-                uri = 'http://localhost:8081/api/contacts/' + _this5.$route.params.id + '/edit';
+                uri = '/api/contacts/' + _this5.$route.params.id + '/edit';
 
                 _this5.$http.get(uri).then(function (response) {
                   _this5.item = response.data;
@@ -280,7 +280,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context5.prev = _context5.next) {
               case 0:
                 _this6.loading = true;
-                uri = 'http://localhost:8081/api/contact-types/';
+                uri = '/api/contact-types/';
 
                 _this6.$http.get(uri).then(function (response) {
                   _this6.types = response.data;

@@ -131,7 +131,7 @@ export default {
       }
       if (!this.valid) return;
       this.loading = true;
-      let uri = 'http://localhost:8081/api/customers/';
+      let uri = '/api/customers/';
       await this.$http.post(uri, this.item)
           .then((response) => {
             this.item = response.data,
@@ -147,7 +147,7 @@ export default {
       }
       this.loading = true;
       if (!this.valid) return;
-      let uri = 'http://localhost:8081/api/customers/' + this.item.id;
+      let uri = '/api/customers/' + this.item.id;
       await this.$http.put(uri, this.item)
           .then(() => {
             this.$router.push({name: 'customers'})
@@ -160,7 +160,7 @@ export default {
     },
     async getItem() {
       this.loading = true;
-      let uri = 'http://localhost:8081/api/customers/' + this.$route.params.id + '/edit';
+      let uri = '/api/customers/' + this.$route.params.id + '/edit';
       this.$http.get(uri)
         .then((response) => {
             this.item = response.data

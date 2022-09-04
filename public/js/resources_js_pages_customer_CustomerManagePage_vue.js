@@ -162,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 _this2.loading = true;
-                uri = 'http://localhost:8081/api/customers/';
+                uri = '/api/customers/';
                 _context2.next = 8;
                 return _this2.$http.post(uri, _this2.item).then(function (response) {
                   _this2.item = response.data, _this2.$router.push({
@@ -208,7 +208,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context3.abrupt("return");
 
               case 5:
-                uri = 'http://localhost:8081/api/customers/' + _this3.item.id;
+                uri = '/api/customers/' + _this3.item.id;
                 _context3.next = 8;
                 return _this3.$http.put(uri, _this3.item).then(function () {
                   _this3.$router.push({
@@ -239,7 +239,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context4.prev = _context4.next) {
               case 0:
                 _this4.loading = true;
-                uri = 'http://localhost:8081/api/customers/' + _this4.$route.params.id + '/edit';
+                uri = '/api/customers/' + _this4.$route.params.id + '/edit';
 
                 _this4.$http.get(uri).then(function (response) {
                   _this4.item = response.data;

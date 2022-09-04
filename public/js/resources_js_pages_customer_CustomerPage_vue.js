@@ -20,7 +20,8 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.$http.get('http://localhost:8081/api/customers/').then(function (response) {
+    console.log("URL", this.axios.defaults.baseURL);
+    this.$http.get('api/customers/').then(function (response) {
       _this.customers = response.data.data;
     });
   },
@@ -28,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteCustomer: function deleteCustomer(id) {
       var _this2 = this;
 
-      this.$http["delete"]("http://localhost:8081/api/customers/".concat(id)).then(function (response) {
+      this.$http["delete"]("/api/customers/".concat(id)).then(function (response) {
         var i = _this2.customers.map(function (data) {
           return data.id;
         }).indexOf(id);

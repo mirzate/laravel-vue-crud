@@ -10,6 +10,8 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 import VueFeather from 'vue-feather';
 
+axios.defaults.baseURL = 'http://localhost:8081/';
+
 const app = createApp(App)
 
 

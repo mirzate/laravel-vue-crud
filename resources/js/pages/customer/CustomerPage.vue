@@ -67,8 +67,9 @@
         },
 
         created() {
+            console.log("URL",this.axios.defaults.baseURL);
             this.$http
-                .get('http://localhost:8081/api/customers/')
+                .get('api/customers/')
                 .then(response => {
                     this.customers = response.data.data;
                 });
@@ -76,7 +77,7 @@
         methods: {
             deleteCustomer(id) { 
                 this.$http
-                    .delete(`http://localhost:8081/api/customers/${id}`)
+                    .delete(`/api/customers/${id}`)
                     .then(response => {
                         let i = this.customers.map(data => data.id).indexOf(id);
                         this.customers.splice(i, 1)

@@ -51,7 +51,7 @@
       
         created() {
             this.$http
-                .get('http://localhost:8081/api/countries/')
+                .get('/api/countries/')
                 .then(response => {
                     this.countries = response.data;
                 });
@@ -59,7 +59,7 @@
         methods: {
             deletecountry(id) { 
                 this.$http
-                    .delete(`http://localhost:8081/api/countries/${id}`)
+                    .delete(`/api/countries/${id}`)
                     .then(response => {
                         let i = this.countries.map(data => data.id).indexOf(id);
                         this.countries.splice(i, 1)

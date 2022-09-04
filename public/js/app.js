@@ -19920,6 +19920,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
+(axios__WEBPACK_IMPORTED_MODULE_5___default().defaults.baseURL) = 'http://localhost:8081/';
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_1__.createApp)(_App_vue__WEBPACK_IMPORTED_MODULE_3__["default"]);
 app.component(vue_feather__WEBPACK_IMPORTED_MODULE_6__["default"].name, vue_feather__WEBPACK_IMPORTED_MODULE_6__["default"]);
 app.use(_router__WEBPACK_IMPORTED_MODULE_2__["default"]);

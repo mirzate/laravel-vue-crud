@@ -162,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 4:
                 _this2.loading = true;
-                uri = 'http://localhost:8081/api/countries/';
+                uri = '/api/countries/';
                 _context2.next = 8;
                 return _this2.$http.post(uri, _this2.item).then(function (response) {
                   _this2.item = response.data, _this2.$router.push({

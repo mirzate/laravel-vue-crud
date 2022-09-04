@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    this.$http.get('http://localhost:8081/api/countries/').then(function (response) {
+    this.$http.get('/api/countries/').then(function (response) {
       _this.countries = response.data;
     });
   },
@@ -28,7 +28,7 @@ __webpack_require__.r(__webpack_exports__);
     deletecountry: function deletecountry(id) {
       var _this2 = this;
 
-      this.$http["delete"]("http://localhost:8081/api/countries/".concat(id)).then(function (response) {
+      this.$http["delete"]("/api/countries/".concat(id)).then(function (response) {
         var i = _this2.countries.map(function (data) {
           return data.id;
         }).indexOf(id);
