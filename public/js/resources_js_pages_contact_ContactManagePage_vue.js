@@ -385,7 +385,10 @@ var _hoisted_12 = {
 
 var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
 
-var _hoisted_14 = ["disabled"];
+var _hoisted_14 = {
+  type: "submit",
+  "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+};
 var _hoisted_15 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _this = this;
@@ -450,13 +453,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    disabled: $data.loading,
-    "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 9
-  /* TEXT, PROPS */
-  , _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 1
+  /* TEXT */
+  ), this.item.id ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
     onClick: _cache[2] || (_cache[2] = function ($event) {
       return $options.deleteContact(_this.item.id);
     }),
@@ -464,7 +464,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": "mt-6 ml-3 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
   }, " Delete ", 8
   /* PROPS */
-  , _hoisted_15)])], 544
+  , _hoisted_15)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
   )])])])]);
 }

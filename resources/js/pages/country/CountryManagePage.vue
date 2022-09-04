@@ -21,7 +21,6 @@
                         Cancel
                     </router-link>
                     <button type="submit"
-                            :disabled="loading"
                             class="mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                         {{ buttonText }}
                     </button>

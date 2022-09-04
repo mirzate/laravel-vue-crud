@@ -17,8 +17,18 @@ class CustomerController extends Controller
     }
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string',
+            'address' => 'string',
+            'industry_id' => 'required|exists:App\Models\Industry,id',
+            'city_id' => 'required|exists:App\Models\City,id'
+        ]);
+
         $customer = new Customer([
             'name' => $request->input('name'),
+            'address' => $request->input('address'),
+            'industry_id' => $request->input('industry_id'),
+            'city_id' => $request->input('city_id'),
         ]);
         $customer->save();
 
@@ -41,6 +51,9 @@ class CustomerController extends Controller
 
         $request->validate([
             'name' => 'required|string',
+            'address' => 'string',
+            'industry_id' => 'required|exists:App\Models\Industry,id',
+            'city_id' => 'required|exists:App\Models\City,id'
         ]);
 
         $customer = Customer::find($id);

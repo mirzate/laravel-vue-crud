@@ -41,7 +41,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   metaInfo: function metaInfo() {
     return {
-      title: 'Countries'
+      title: 'Customer'
     };
   },
   components: {
@@ -49,26 +49,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      taxes: [],
-      taxTypes: [],
-      categories: [],
-      cat: [],
-      addons: [],
-      fees: [],
-      quote: null,
-      item: {
-        name: null,
-        is_published: false,
-        quote: null,
-        package_discount: 0,
-        tax_inclusive: false,
-        addons: [],
-        fees: [],
-        products: []
-      },
-      selectedFile: null,
-      imageUploadError: null,
-      imageUpload: false,
+      item: {},
+      cities: null,
+      industries: null,
       loading: false,
       file: null,
       rules: {
@@ -83,6 +66,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
   },
   mounted: function mounted() {
+    this.getCities();
+    this.getIndustries();
+
     if (this.$route.params.id) {
       this.getItem();
     }
@@ -101,6 +87,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         label = "Name required.";
         this.errors.push(label);
         this.errors["name"] = label;
+      }
+
+      if (!this.item.city_id) {
+        label = "City required.";
+        this.errors.push(label);
+        this.errors["city_id"] = label;
+      }
+
+      if (!this.item.industry_id) {
+        label = "Industry required.";
+        this.errors.push(label);
+        this.errors["industry_id"] = label;
       }
 
       if (!this.errors.length) {
@@ -136,7 +134,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    addItem: function addItem() {
+    getCities: function getCities() {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2() {
@@ -145,35 +143,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (_this2.validateForm()) {
-                  _context2.next = 2;
-                  break;
-                }
-
-                return _context2.abrupt("return");
-
-              case 2:
-                if (_this2.valid) {
-                  _context2.next = 4;
-                  break;
-                }
-
-                return _context2.abrupt("return");
-
-              case 4:
                 _this2.loading = true;
-                uri = '/api/customers/';
-                _context2.next = 8;
-                return _this2.$http.post(uri, _this2.item).then(function (response) {
-                  _this2.item = response.data, _this2.$router.push({
-                    name: 'customers'
-                  });
+                uri = '/api/cities/';
+
+                _this2.$http.get(uri).then(function (response) {
+                  _this2.cities = response.data;
+                })["catch"](function (error) {
+                  console.log('Error loading data: ' + error), _this2.errored = true, _this2.loading = false;
+                })["finally"](function () {
+                  return _this2.loading = false;
                 });
 
-              case 8:
-                _this2.loading = false;
-
-              case 9:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -181,7 +162,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }))();
     },
-    updateItem: function updateItem() {
+    getIndustries: function getIndustries() {
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3() {
@@ -190,38 +171,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                if (_this3.validateForm()) {
-                  _context3.next = 2;
-                  break;
-                }
-
-                return _context3.abrupt("return");
-
-              case 2:
                 _this3.loading = true;
+                uri = '/api/industries/';
 
-                if (_this3.valid) {
-                  _context3.next = 5;
-                  break;
-                }
-
-                return _context3.abrupt("return");
-
-              case 5:
-                uri = '/api/customers/' + _this3.item.id;
-                _context3.next = 8;
-                return _this3.$http.put(uri, _this3.item).then(function () {
-                  _this3.$router.push({
-                    name: 'customers'
-                  });
+                _this3.$http.get(uri).then(function (response) {
+                  _this3.industries = response.data;
                 })["catch"](function (error) {
                   console.log('Error loading data: ' + error), _this3.errored = true, _this3.loading = false;
+                })["finally"](function () {
+                  return _this3.loading = false;
                 });
 
-              case 8:
-                _this3.loading = false;
-
-              case 9:
+              case 3:
               case "end":
                 return _context3.stop();
             }
@@ -229,7 +190,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee3);
       }))();
     },
-    getItem: function getItem() {
+    addItem: function addItem() {
       var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4() {
@@ -238,23 +199,116 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this4.loading = true;
-                uri = '/api/customers/' + _this4.$route.params.id + '/edit';
+                if (_this4.validateForm()) {
+                  _context4.next = 2;
+                  break;
+                }
 
-                _this4.$http.get(uri).then(function (response) {
-                  _this4.item = response.data;
-                })["catch"](function (error) {
-                  console.log('Error loading data: ' + error), _this4.errored = true, _this4.loading = false;
-                })["finally"](function () {
-                  return _this4.loading = false;
+                return _context4.abrupt("return");
+
+              case 2:
+                if (_this4.valid) {
+                  _context4.next = 4;
+                  break;
+                }
+
+                return _context4.abrupt("return");
+
+              case 4:
+                _this4.loading = true;
+                uri = '/api/customers/';
+                _context4.next = 8;
+                return _this4.$http.post(uri, _this4.item).then(function (response) {
+                  _this4.item = response.data, _this4.$router.push({
+                    name: 'customers'
+                  });
                 });
 
-              case 3:
+              case 8:
+                _this4.loading = false;
+
+              case 9:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4);
+      }))();
+    },
+    updateItem: function updateItem() {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee5() {
+        var uri;
+        return _regeneratorRuntime().wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (_this5.validateForm()) {
+                  _context5.next = 2;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 2:
+                _this5.loading = true;
+
+                if (_this5.valid) {
+                  _context5.next = 5;
+                  break;
+                }
+
+                return _context5.abrupt("return");
+
+              case 5:
+                uri = '/api/customers/' + _this5.item.id;
+                _context5.next = 8;
+                return _this5.$http.put(uri, _this5.item).then(function () {
+                  _this5.$router.push({
+                    name: 'customers'
+                  });
+                })["catch"](function (error) {
+                  console.log('Error loading data: ' + error), _this5.errored = true, _this5.loading = false;
+                });
+
+              case 8:
+                _this5.loading = false;
+
+              case 9:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }))();
+    },
+    getItem: function getItem() {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee6() {
+        var uri;
+        return _regeneratorRuntime().wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _this6.loading = true;
+                uri = '/api/customers/' + _this6.$route.params.id + '/edit';
+
+                _this6.$http.get(uri).then(function (response) {
+                  _this6.item = response.data;
+                })["catch"](function (error) {
+                  console.log('Error loading data: ' + error), _this6.errored = true, _this6.loading = false;
+                })["finally"](function () {
+                  return _this6.loading = false;
+                });
+
+              case 3:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6);
       }))();
     }
   }
@@ -329,12 +383,46 @@ var _hoisted_7 = {
   "class": "text-xs text-red"
 };
 var _hoisted_8 = {
+  "class": "mt-8"
+};
+
+var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  required: "",
+  "for": "address"
+}, "Address", -1
+/* HOISTED */
+);
+
+var _hoisted_10 = {
+  "class": "mt-2"
+};
+var _hoisted_11 = {
+  "class": "text-xs text-red"
+};
+var _hoisted_12 = {
+  "class": "mt-8"
+};
+var _hoisted_13 = ["value"];
+var _hoisted_14 = {
+  "class": "text-xs text-red"
+};
+var _hoisted_15 = {
+  "class": "mt-8"
+};
+var _hoisted_16 = ["value"];
+var _hoisted_17 = {
+  "class": "text-xs text-red"
+};
+var _hoisted_18 = {
   "class": "mt-6"
 };
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
 
-var _hoisted_10 = ["disabled"];
+var _hoisted_20 = {
+  type: "submit",
+  "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_input_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("input-text");
 
@@ -343,10 +431,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     ref: "form",
     novalidate: "false",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
+    onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function () {
       return $options.onSubmit && $options.onSubmit.apply($options, arguments);
     }, ["prevent"])),
-    onChange: _cache[2] || (_cache[2] = function ($event) {
+    onChange: _cache[5] || (_cache[5] = function ($event) {
       return $options.validateForm();
     }),
     method: "POST"
@@ -362,25 +450,72 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['name']), 1
   /* TEXT */
-  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_input_text, {
+    modelValue: $data.item.address,
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $data.item.address = $event;
+    }),
+    id: "address",
+    name: "address"
+  }, null, 8
+  /* PROPS */
+  , ["modelValue"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['address']), 1
+  /* TEXT */
+  )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.industries, function (industry, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(industry.name) + " ", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "radio",
+      id: "industry_id",
+      "class": "custom-control-input",
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+        return $data.item.industry_id = $event;
+      }),
+      value: industry.id
+    }, null, 8
+    /* PROPS */
+    , _hoisted_13), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.item.industry_id]])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['industry_id']), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.cities, function (city, index) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: index
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(city.name) + " ", 1
+    /* TEXT */
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "radio",
+      id: "city",
+      "class": "custom-control-input",
+      "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+        return $data.item.city_id = $event;
+      }),
+      value: city.id
+    }, null, 8
+    /* PROPS */
+    , _hoisted_16), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.item.city_id]])]);
+  }), 128
+  /* KEYED_FRAGMENT */
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors['city_id']), 1
+  /* TEXT */
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: {
       name: 'customers'
     },
     "class": "mt-6 mr-6 px-8 py-3 border border-solid border-black text-base font-medium rounded-xl text-black bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-n4"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_9];
+      return [_hoisted_19];
     }),
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    disabled: $data.loading,
-    "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 9
-  /* TEXT, PROPS */
-  , _hoisted_10)])], 544
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 1
+  /* TEXT */
+  )])], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
   )])])])]);
 }

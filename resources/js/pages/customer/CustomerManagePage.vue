@@ -13,7 +13,39 @@
                         <span class="text-xs text-red">{{errors['name']}}</span>
                         </div>
                     </div>
-
+                    <div class="mt-8">
+                        <label required for="address">Address</label>
+                        <div class="mt-2">
+                        <input-text v-model="item.address" id="address" name="address"/>
+                        <span class="text-xs text-red">{{errors['address']}}</span>
+                        </div>
+                    </div>      
+                    <div class="mt-8">
+                        <div v-for="industry,index in industries" :key="index">
+                          {{industry.name}}
+                                  <input
+                                    type="radio"
+                                    id="industry_id"
+                                    class="custom-control-input"
+                                    v-model="item.industry_id"
+                                    :value="industry.id"
+                                  />
+                        </div>
+                        <span class="text-xs text-red">{{errors['industry_id']}}</span>
+                    </div>                                  
+                    <div class="mt-8">
+                        <div v-for="city,index in cities" :key="index">
+                          {{city.name}}
+                                  <input
+                                    type="radio"
+                                    id="city"
+                                    class="custom-control-input"
+                                    v-model="item.city_id"
+                                    :value="city.id"
+                                  />
+                        </div>
+                        <span class="text-xs text-red">{{errors['city_id']}}</span>
+                    </div>
 
                     <div class="mt-6">
                     <router-link :to="{ name: 'customers' }"
@@ -21,7 +53,6 @@
                         Cancel
                     </router-link>
                     <button type="submit"
-                            :disabled="loading"
                             class="mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                         {{ buttonText }}
                     </button>
@@ -42,32 +73,15 @@ import InputText from "../../components/InputText.vue";
 export default {
   metaInfo() {
     return {
-      title: 'Countries',
+      title: 'Customer',
     }
   },
   components: {InputText},
   data() {
     return {
-      taxes: [],
-      taxTypes: [],
-      categories: [],
-      cat: [],
-      addons: [],
-      fees: [],
-      quote: null,
-      item: {
-        name: null,
-        is_published: false,
-        quote: null,
-        package_discount: 0,
-        tax_inclusive: false,
-        addons: [],
-        fees: [],
-        products: [],
-      },
-      selectedFile: null,
-      imageUploadError: null,
-      imageUpload:false,      
+      item: {},
+      cities: null,
+      industries: null,
       loading: false,
       file: null,
       rules: {
@@ -81,7 +95,8 @@ export default {
     }
   },
   mounted: function () {
-
+    this.getCities();
+    this.getIndustries();
     if (this.$route.params.id) {
      this.getItem();
     }
@@ -104,6 +119,18 @@ export default {
           this.errors["name"] = label;
         }
 
+        if (!this.item.city_id) {
+          label = "City required.";
+          this.errors.push(label);
+          this.errors["city_id"] = label;
+        }
+
+        if (!this.item.industry_id) {
+          label = "Industry required.";
+          this.errors.push(label);
+          this.errors["industry_id"] = label;
+        }        
+
       if (!this.errors.length) {
         this.valid = true;
         return true;
@@ -124,6 +151,36 @@ export default {
         this.addItem();
       }
     },
+    async getCities() {
+      this.loading = true;
+      let uri = '/api/cities/';
+      this.$http.get(uri)
+        .then((response) => {
+            this.cities = response.data
+        }).catch(error => {
+            console.log('Error loading data: ' + error),
+            this.errored = true,
+            this.loading = false
+        }).finally(() =>
+            this.loading = false
+        );
+
+    },
+    async getIndustries() {
+      this.loading = true;
+      let uri = '/api/industries/';
+      this.$http.get(uri)
+        .then((response) => {
+            this.industries = response.data
+        }).catch(error => {
+            console.log('Error loading data: ' + error),
+            this.errored = true,
+            this.loading = false
+        }).finally(() =>
+            this.loading = false
+        );
+
+    },          
     async addItem() {
 
       if(!this.validateForm()){

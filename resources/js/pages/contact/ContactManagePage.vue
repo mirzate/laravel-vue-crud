@@ -32,11 +32,11 @@
                         Cancel
                     </router-link>
                     <button type="submit"
-                            :disabled="loading"
+
                             class="mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                         {{ buttonText }}
                     </button>
-                    <button @click="deleteContact(this.item.id)" :disabled="!this.item.id"
+                    <button v-if="this.item.id" @click="deleteContact(this.item.id)" :disabled="!this.item.id"
                         class="mt-6 ml-3 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-red focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                       Delete
                     </button>

@@ -334,7 +334,10 @@ var _hoisted_8 = {
 
 var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Cancel ");
 
-var _hoisted_10 = ["disabled"];
+var _hoisted_10 = {
+  type: "submit",
+  "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_input_text = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("input-text");
 
@@ -374,13 +377,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    disabled: $data.loading,
-    "class": "mt-6 px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 9
-  /* TEXT, PROPS */
-  , _hoisted_10)])], 544
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.buttonText), 1
+  /* TEXT */
+  )])], 544
   /* HYDRATE_EVENTS, NEED_PATCH */
   )])])])]);
 }
