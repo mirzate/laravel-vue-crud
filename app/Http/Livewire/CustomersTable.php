@@ -11,13 +11,7 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 
 class CustomersTable extends LivewireDatatable
 {
-    //public $model = Customer::class;
-
-    public function builder()
-    {
-        return Customer::class;
-    }
-
+    public $model = Customer::class;
 
     public function columns()
     {
