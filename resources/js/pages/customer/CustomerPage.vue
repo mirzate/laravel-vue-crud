@@ -1,6 +1,5 @@
 <template>
     <div class="max-w-9xl mx-auto sm:px-8 lg:px-16 w-full mb-7">
-
         <div class="mb-5 mt-5">
             <router-link
                 class="bg-black text-white font-semibold leading-relaxed 
@@ -9,6 +8,9 @@
             >
             Create New
             </router-link> 
+        </div>
+        <div class="mb-5 mt-5">
+            <router-view></router-view>
         </div>
         <div>
             <table class="table">
@@ -28,7 +30,9 @@
                     <td>{{ customer.industry }}</td>
                     <td>
                         <div v-for="(contact,index) in customer.contacts" :key="index">
-                             <span>{{contact.type.name}}: {{contact.value}}</span>
+                            <li>
+                                <router-link :to="{name: 'contacts.edit', params: { id: contact.id }}" class="btn btn-success mr-2">Edit</router-link>
+                                <span>{{contact.type.name}}: {{contact.value}}</span></li>
                         </div>
                     </td>
 

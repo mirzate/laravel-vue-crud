@@ -23,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('api')->group(function () {
     Route::resource('countries', CountryController::class);
     Route::resource('customers', CustomerController::class);
+    Route::resource('contacts', ContactController::class);
 });

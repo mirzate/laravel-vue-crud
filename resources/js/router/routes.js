@@ -11,7 +11,19 @@ export default [
   {
     path: '/customers',
     name: 'customers',
-    component: page('customer/CustomerPage')
+    component: page('customer/CustomerPage'),
+    children: [
+      {
+        path: '/contacts/create',
+        name: 'contacts.create',
+        component: page('contact/ContactManagePage')
+      },
+      {
+        path: '/contacts/:id/edit',
+        name: 'contacts.edit',
+        component: page('contact/ContactManagePage')
+      },
+    ]
   },
   {
     path: '/customers/create',
@@ -38,6 +50,5 @@ export default [
     name: 'countries.edit',
     component: page('country/CountryManagePage')
   },
-
   { path: '/:catchAll(.*)', name: 'notFound', component: page('errors/404') }
 ]
